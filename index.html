@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Contact - thOSp</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Contact thOSp - Secure communication portal">
+<meta name="description" content="yo look at this cool form thing">
 
 <style>
 :root {
@@ -28,11 +28,7 @@
 
 body {
   margin:0;
-  background:
-    linear-gradient(0deg, transparent 95%, rgba(255,255,255,0.03) 100%),
-    linear-gradient(90deg, transparent 95%, rgba(255,255,255,0.03) 100%),
-    var(--bg);
-  background-size:40px 40px;
+  background: var(--bg);
   color:var(--text);
   min-height: 100vh;
   display: flex;
@@ -45,88 +41,54 @@ body {
 /* ===== Title ===== */
 .page-title {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   width: 100%;
 }
 
 .page-title h1 {
-  color: var(--accent2);
-  font-size: 48px;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+  color: var(--accent);
+  font-size: 36px;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
 }
 
 .page-title .subtitle {
   color: var(--muted);
-  font-size: 18px;
-}
-
-/* IP Display */
-.ip-display {
-  margin-top: 10px;
-  padding: 8px 15px;
-  background: rgba(44, 255, 106, 0.1);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  display: inline-block;
-  font-family: 'Courier New', monospace;
   font-size: 14px;
-}
-
-.ip-label {
-  color: var(--muted);
-  margin-right: 8px;
-}
-
-.ip-value {
-  color: var(--accent);
-  font-weight: bold;
 }
 
 /* ===== Contact Card ===== */
 .contact-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
 .contact-card {
   background: var(--panel);
-  border: 2px solid var(--accent);
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 30px rgba(44, 255, 106, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.contact-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border: 1px solid var(--accent);
+  padding: 30px;
+  border-radius: 4px;
 }
 
 .contact-card h2 {
-  color: var(--accent);
+  color: var(--text);
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 32px;
-  letter-spacing: 1px;
+  margin-bottom: 25px;
+  font-size: 24px;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 10px;
 }
 
 /* ===== Status Messages ===== */
 .status-message {
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-weight: 600;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-weight: 500;
   text-align: center;
   display: none;
+  font-size: 14px;
 }
 
 .status-message.success {
@@ -153,106 +115,69 @@ body {
 /* ===== Form ===== */
 #contactForm {
   display: grid;
-  gap: 25px;
+  gap: 20px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
 }
 
 .form-group label {
   font-weight: 600;
   color: var(--accent2);
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .form-group .hint {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
-  margin-top: -5px;
 }
 
 input, textarea, select {
-  background: rgba(11, 13, 20, 0.8);
-  border: 2px solid #283045;
-  padding: 16px;
+  background: rgba(11, 13, 20, 0.9);
+  border: 1px solid #283045;
+  padding: 12px;
   color: var(--text);
-  font-size: 16px;
-  border-radius: 6px;
-  transition: all 0.3s;
-  backdrop-filter: blur(10px);
+  font-size: 14px;
+  border-radius: 3px;
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--accent2);
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+  border-color: var(--accent);
 }
 
 input.error, textarea.error {
   border-color: var(--error);
-  animation: shake 0.5s;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
 }
 
 /* ===== Button ===== */
 .submit-btn {
   background: transparent;
-  border: 2px solid var(--accent);
+  border: 1px solid var(--accent);
   color: var(--accent);
-  font-weight: 800;
-  padding: 18px;
+  font-weight: 600;
+  padding: 14px;
   cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  margin-top: 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  margin-top: 5px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.submit-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(44, 255, 106, 0.2), transparent);
-  transition: left 0.5s;
-  z-index: -1;
-}
-
-.submit-btn:hover:not(:disabled)::before {
-  left: 100%;
+  letter-spacing: 1px;
 }
 
 .submit-btn:hover:not(:disabled) {
   background: var(--accent);
   color: #000;
-  box-shadow: 0 0 25px rgba(44, 255, 106, 0.4);
-}
-
-.submit-btn:active:not(:disabled) {
-  transform: translateY(2px);
 }
 
 .submit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  transform: none !important;
 }
 
 /* ===== Loading Animation ===== */
@@ -263,27 +188,25 @@ input.error, textarea.error {
 
 .loading-spinner {
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255,255,255,.3);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,.3);
   border-radius: 50%;
   border-top-color: var(--accent);
-  animation: spin 1s ease-in-out infinite;
-  margin-right: 10px;
-  vertical-align: middle;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
 }
 
 /* ===== Privacy Notice ===== */
 .privacy-notice {
   background: rgba(44, 255, 106, 0.05);
   border: 1px solid var(--accent);
-  padding: 15px;
-  margin-top: 25px;
-  font-size: 13px;
+  padding: 12px;
+  margin-top: 20px;
+  font-size: 12px;
   color: var(--muted);
-  border-radius: 6px;
-  line-height: 1.5;
-  text-align: center;
+  border-radius: 3px;
+  line-height: 1.4;
 }
 
 .privacy-notice strong {
@@ -292,32 +215,26 @@ input.error, textarea.error {
 
 /* ===== Honeypot Field ===== */
 .honeypot {
-  opacity: 0;
-  position: absolute;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
+  display: none;
 }
 
 /* ===== Footer ===== */
 .footer {
-  margin-top: 40px;
+  margin-top: 30px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
-  padding: 20px;
-  border-top: 1px solid rgba(44, 255, 106, 0.2);
+  padding: 15px;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 /* ===== Character Counter ===== */
 .char-counter {
   text-align: right;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
-  margin-top: 5px;
+  margin-top: 3px;
 }
 
 .char-counter.warning {
@@ -335,125 +252,35 @@ input.error, textarea.error {
   }
   
   .page-title h1 {
-    font-size: 36px;
+    font-size: 28px;
   }
   
   .contact-card {
-    padding: 30px 20px;
+    padding: 20px 15px;
   }
   
   .contact-card h2 {
-    font-size: 28px;
+    font-size: 20px;
   }
   
   input, textarea, select {
-    padding: 14px;
+    padding: 10px;
   }
   
   .submit-btn {
-    padding: 16px;
+    padding: 12px;
   }
-}
-
-@media (max-width: 480px) {
-  .page-title h1 {
-    font-size: 28px;
-  }
-  
-  .page-title .subtitle {
-    font-size: 14px;
-  }
-  
-  .contact-card {
-    padding: 25px 15px;
-  }
-  
-  .contact-card h2 {
-    font-size: 24px;
-  }
-  
-  .ip-display {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-}
-
-/* ===== Status Indicator ===== */
-.status-indicator {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-/* ===== System Info ===== */
-.system-info {
-  margin-top: 20px;
-  padding: 15px;
-  background: rgba(44, 255, 106, 0.05);
-  border: 1px solid var(--accent);
-  border-radius: 8px;
-  font-size: 13px;
-  text-align: center;
-}
-
-.system-info-item {
-  display: inline-block;
-  margin: 0 15px;
-}
-
-.system-label {
-  color: var(--muted);
-  margin-right: 5px;
-}
-
-.system-value {
-  color: var(--accent);
-  font-family: 'Courier New', monospace;
-}
-
-/* ===== IP Loading Animation ===== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.ip-loading {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: 2px solid rgba(44, 255, 106, 0.3);
-  border-radius: 50%;
-  border-top-color: var(--accent);
-  animation: spin 1s linear infinite;
-  margin-left: 5px;
-}
-
-.ip-value.loading {
-  color: var(--muted);
 }
 </style>
 </head>
 
 <body>
-  <!-- Status Indicator -->
-  <div class="status-indicator"></div>
-  
   <!-- Page Title -->
   <div class="page-title">
     <h1>thOSp</h1>
-    <div class="subtitle">Secure Communication Portal</div>
-
+    <div class="subtitle">Contact Portal</div>
+  </div>
+  
   <!-- Contact Container -->
   <div class="contact-container">
     <div class="contact-card">
@@ -474,14 +301,14 @@ input.error, textarea.error {
         <div class="form-group">
           <label for="name">Name *</label>
           <input id="name" type="text" placeholder="Your name" required minlength="2" maxlength="100">
-          <div class="hint">Required • Minimum 2 characters</div>
+          <div class="hint">Minimum 2 characters</div>
         </div>
         
         <!-- Email Field -->
         <div class="form-group">
           <label for="email">Email *</label>
           <input id="email" type="email" placeholder="your.email@example.com" required>
-          <div class="hint">Required • We'll only use this to reply</div>
+          <div class="hint">For reply only</div>
         </div>
         
         <!-- Category Field -->
@@ -490,19 +317,18 @@ input.error, textarea.error {
           <select id="category">
             <option value="">Select a category</option>
             <option value="general">General Inquiry</option>
-            <option value="support">Technical Support</option>
-            <option value="business">Business Inquiry</option>
+            <option value="support">Support</option>
+            <option value="business">Business</option>
             <option value="feedback">Feedback</option>
-            <option value="other">Other</option>
           </select>
         </div>
         
         <!-- Message Field -->
         <div class="form-group">
           <label for="message">Message *</label>
-          <textarea id="message" rows="6" placeholder="Your message here..." required minlength="10" maxlength="2000"></textarea>
+          <textarea id="message" rows="5" placeholder="Your message here..." required minlength="10" maxlength="2000"></textarea>
           <div id="charCounter" class="char-counter">0/2000</div>
-          <div class="hint">Required • Minimum 10 characters</div>
+          <div class="hint">Minimum 10 characters</div>
         </div>
         
         <!-- Submit Button -->
@@ -513,26 +339,14 @@ input.error, textarea.error {
         
         <!-- Privacy Notice -->
         <div class="privacy-notice">
-          <strong>Privacy Notice:</strong> Your message is transmitted securely and stored only for communication purposes. We appreciate your cooperation.
-        </div>
-        
-        <!-- System Info -->
-        <div class="system-info">
-          <div class="system-info-item">
-            <span class="system-label">User Agent:</span>
-            <span class="system-value" id="user-agent"></span>
-          </div>
-          <div class="system-info-item">
-            <span class="system-label">Platform:</span>
-            <span class="system-value" id="platform"></span>
-          </div>
+          <strong>Privacy:</strong> Your message is transmitted securely.
         </div>
       </form>
     </div>
     
     <!-- Footer -->
     <div class="footer">
-      © 2025 thOSp Communication Portal • All transmissions are encrypted and logged
+      © 2025 thOSp
     </div>
   </div>
 
