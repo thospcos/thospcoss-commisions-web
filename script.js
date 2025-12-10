@@ -1,13 +1,8 @@
-// Discord Webhook URL - Replace if needed
+// Discord Webhook URL
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1444318939751518369/-9blXMbgbRx-r-Frr6OgENLAhgB_H3Vg6LV37u6qejKaFRcjSKOgqd5l5TYaHM_QQzGr";
 
-// Store user data
-let userData = {
-  ip: 'Detecting...',
-  userAgent: '',
-  platform: '',
-  timestamp: new Date().toISOString()
-};
+// Store IP address
+let userIP = '';
 
 // Rate Limiter
 class RateLimiter {
@@ -36,7 +31,7 @@ class RateLimiter {
     }
 }
 
-const rateLimiter = new RateLimiter(3, 5 * 60 * 1000); // 3 attempts per 5 minutes
+const rateLimiter = new RateLimiter(3, 5 * 60 * 1000);
 
 // DOM Elements
 const form = document.getElementById('contactForm');
@@ -47,35 +42,18 @@ const btnSpinner = document.getElementById('btnSpinner');
 const charCounter = document.getElementById('charCounter');
 const messageInput = document.getElementById('message');
 
-// Fetch Public IP Address
+// Fetch IP Address (not displayed, just collected)
 function fetchIPAddress() {
-    const ipDisplay = document.getElementById('ip-address-display');
-    
     fetch("https://api.ipify.org/?format=json")
         .then(response => response.json())
         .then(data => {
-            userData.ip = data.ip;
-            ipDisplay.innerHTML = data.ip;
-            ipDisplay.style.color = '#2cff6a';
-            console.log("Public IP Address:", data.ip);
+            userIP = data.ip;
+            console.log("IP collected:", data.ip);
         })
         .catch(error => {
             console.error("Error fetching IP:", error);
-            userData.ip = 'Failed to fetch';
-            ipDisplay.innerHTML = 'Failed to fetch';
-            ipDisplay.style.color = '#ff4444';
+            userIP = 'Not available';
         });
-}
-
-// Get User Agent and Platform Info
-function collectSystemInfo() {
-    userData.userAgent = navigator.userAgent;
-    userData.platform = navigator.platform;
-    
-    // Display system info
-    document.getElementById('user-agent').textContent = 
-        navigator.userAgent.substring(0, 30) + '...';
-    document.getElementById('platform').textContent = navigator.platform;
 }
 
 // Show Status Message
@@ -102,20 +80,17 @@ function validateForm(name, email, message) {
     clearErrors();
     const errors = [];
     
-    // Name validation
     if (!name || name.trim().length < 2) {
         errors.push("Name must be at least 2 characters");
         document.getElementById('name').classList.add('error');
     }
     
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
-        errors.push("Please enter a valid email address");
+        errors.push("Please enter a valid email");
         document.getElementById('email').classList.add('error');
     }
     
-    // Message validation
     if (!message || message.trim().length < 10) {
         errors.push("Message must be at least 10 characters");
         document.getElementById('message').classList.add('error');
@@ -127,53 +102,42 @@ function validateForm(name, email, message) {
     return errors;
 }
 
-// Format Discord Message with IP Info
+// Format Discord Message with IP
 function formatDiscordMessage(name, email, category, message) {
     const timestamp = new Date().toLocaleString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
+        month: 'short',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
+        minute: '2-digit'
     });
 
-    const truncatedMessage = message.length > 1000 
-        ? message.substring(0, 1000) + '... [message truncated]' 
-        : message;
-
     return {
-        content: "📬 **New Contact Form Submission**",
+        content: "**New Contact Form Submission**",
         embeds: [{
             title: "Contact Request",
             color: 0x2cff6a,
             fields: [
                 {
-                    name: "👤 Contact Information",
+                    name: "Contact Info",
                     value: `**Name:** ${name}\n**Email:** ${email}\n**Category:** ${category || 'Not specified'}`,
                     inline: false
                 },
                 {
-                    name: "📝 Message",
-                    value: truncatedMessage,
+                    name: "Message",
+                    value: message.length > 1000 ? message.substring(0, 1000) + '...' : message,
                     inline: false
                 },
                 {
-                    name: "🌐 Connection Info",
-                    value: `**IP:** ${userData.ip}\n**Platform:** ${userData.platform}\n**Browser:** ${navigator.userAgent.substring(0, 50)}...`,
+                    name: "IP Address",
+                    value: userIP || 'Not available',
                     inline: false
                 },
                 {
-                    name: "⏰ Received",
+                    name: "Time",
                     value: timestamp,
                     inline: false
                 }
-            ],
-            footer: {
-                text: "thOSp Secure Portal • IP Logged for Security"
-            },
-            timestamp: new Date().toISOString()
+            ]
         }]
     };
 }
@@ -182,44 +146,37 @@ function formatDiscordMessage(name, email, category, message) {
 async function handleSubmit(e) {
     e.preventDefault();
     
-    // Get form values
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
     const category = document.getElementById('category').value;
     const honeypot = document.getElementById('website').value;
     
-    // Honeypot check
     if (honeypot) {
-        console.log('Bot detected');
-        showStatus('Thank you for your message!', 'success');
+        showStatus('Message sent.', 'success');
         form.reset();
         charCounter.textContent = '0/2000';
         return;
     }
     
-    // Validate form
     const errors = validateForm(name, email, message);
     if (errors.length > 0) {
         showStatus(errors.join('\n'), 'error');
         return;
     }
     
-    // Check rate limit
     if (!rateLimiter.canProceed()) {
         const waitTime = rateLimiter.getTimeToWait();
-        showStatus(`Please wait ${waitTime} seconds before sending another message.`, 'error');
+        showStatus(`Wait ${waitTime} seconds before trying again.`, 'error');
         return;
     }
     
-    // Update UI
     submitBtn.disabled = true;
-    btnText.textContent = 'SENDING...';
+    btnText.textContent = 'SENDING';
     btnSpinner.style.display = 'inline-block';
-    showStatus('Sending your message securely...', 'info');
+    showStatus('Sending...', 'info');
     
     try {
-        // Prepare and send message with IP info
         const discordMessage = formatDiscordMessage(name, email, category, message);
         
         const response = await fetch(DISCORD_WEBHOOK_URL, {
@@ -231,15 +188,13 @@ async function handleSubmit(e) {
         });
         
         if (!response.ok) {
-            throw new Error(`Failed to send: ${response.status}`);
+            throw new Error(`Failed: ${response.status}`);
         }
         
-        // Success
-        showStatus('✅ Message sent successfully! We will respond soon.', 'success');
+        showStatus('Message sent successfully.', 'success');
         form.reset();
         charCounter.textContent = '0/2000';
         
-        // Reset button after delay
         setTimeout(() => {
             btnText.textContent = 'SEND MESSAGE';
             btnSpinner.style.display = 'none';
@@ -248,9 +203,8 @@ async function handleSubmit(e) {
         
     } catch (error) {
         console.error('Error:', error);
-        showStatus(`❌ Failed to send: ${error.message}. Please try again.`, 'error');
+        showStatus('Failed to send. Try again.', 'error');
         
-        // Reset button
         btnText.textContent = 'TRY AGAIN';
         btnSpinner.style.display = 'none';
         submitBtn.disabled = false;
@@ -259,18 +213,12 @@ async function handleSubmit(e) {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    // Fetch IP address on page load
     fetchIPAddress();
     
-    // Collect system info
-    collectSystemInfo();
-    
-    // Character counter for message
     messageInput.addEventListener('input', () => {
         const length = messageInput.value.length;
         charCounter.textContent = `${length}/2000`;
         
-        // Update color based on length
         if (length > 1900) {
             charCounter.className = 'char-counter error';
         } else if (length > 1500) {
@@ -280,7 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Clear errors on input
     form.querySelectorAll('input, textarea').forEach(input => {
         input.addEventListener('input', () => {
             input.classList.remove('error');
@@ -288,13 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Form submission
     form.addEventListener('submit', handleSubmit);
-    
-    // Focus on name field
     document.getElementById('name').focus();
-    
-    console.log('thOSp Contact Portal');
-    console.log('User Agent:', navigator.userAgent);
-    console.log('Platform:', navigator.platform);
 });
