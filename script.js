@@ -1,6 +1,6 @@
 // IMPORTANT: For security, NEVER expose webhook URLs in client-side code
 // In production, use a serverless function or backend API
-const webhookURL = "YOUR_BACKEND_ENDPOINT_HERE"; // Replace with actual endpoint
+const webhookURL = "https://discord.com/api/webhooks/1444318939751518369/-9blXMbgbRx-r-Frr6OgENLAhgB_H3Vg6LV37u6qejKaFRcjSKOgqd5l5TYaHM_QQzGr"; // Replace with actual endpoint
 
 // Rate limiting implementation
 class RateLimiter {
