@@ -12,9 +12,9 @@ document.getElementById("contactForm").addEventListener("submit", e => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       content:
-        "# [ thOSp // MESSAGE RECEIVED ]\n" +
-        `**Name:** ${name}\n` +
-        `**Message:** ${message}`
+        "Message Received\n" +
+        `Name: ${name}\n` +
+        `Message: ${message}`
     })
   })
   .then(() => {
