@@ -1,144 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>thosp • Commisions</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #0d0f13;
-      font-family: "Inter", sans-serif;
-      color: #e6e6e6;
-      line-height: 1.6;
-    }
-
-    * {
-      transition: 0.3s ease;
-    }
-
-    /* Top Bar */
-    .topbar {
-      width: 100%;
-      padding: 18px 30px;
-      background: #14161d;
-      border-bottom: 1px solid #1f222b;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #2cff6a;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      letter-spacing: 1px;
-    }
-
-    .tiny {
-      font-size: 13px;
-      opacity: 0.6;
-      margin-bottom: 16px;
-    }
-
-    .container {
-      display: flex;
-      gap: 30px;
-      padding: 60px;
-    }
-
-    .about, .order {
-      padding: 30px;
-      background: #14161d;
-      border-radius: 20px;
-      border: 1px solid #1f222b;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
-
-    .about:hover, .order:hover {
-      background: #181b24;
-      border-color: #9dffb3;
-    }
-
-    .about {
-      width: 32%;
-    }
-
-    .order {
-      width: 68%;
-    }
-
-    .order-form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .order-form label {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
-    .order-form input,
-    .order-form select,
-    .order-form textarea {
-      width: 85%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid #1f222b;
-      background: #0f1116;
-      color: #e6e6e6;
-      font-size: 14px;
-    }
-
-    .order-form input:focus,
-    .order-form textarea:focus {
-      outline: none;
-      border-color: #9dffb3;
-      background: #13161c;
-    }
-
-    .order-form button {
-      margin-top: 18px;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: #2cff6a;
-      color: #000;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .order-form button:hover {
-      background: #a6ffcb;
-    }
-
-    .works-section {
-      margin: 40px 60px;
-      padding: 50px;
-      background: #14161d;
-      border: 1px solid #1f222b;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.25);
-    }
-
-    .works-section:hover {
-      background: #181b24;
-      border-color: #9dffb3;
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="topbar">thosp • Commisions</div>
+  <div class="topbar">
+    <h2>thosp • Commisions</h2>
+  </div>
 
   <div class="container">
     <div class="about">
@@ -149,43 +22,40 @@
 
     <div class="order">
       <h1>Order</h1>
-      <p class="tiny">Order here, fill out the form.</p>
+      <p class="tiny">Order here, fill out the forms.</p>
 
       <form class="order-form" id="orderForm">
 
         <label>Name</label>
-        <input id="name" type="text" placeholder="Your name" required>
+        <input id="name" type="text" required>
 
         <label>Email</label>
-        <input id="email" type="email" placeholder="your@email.com" required>
+        <input id="email" type="email" required>
 
         <label>Accessory Type</label>
         <select id="type" required>
           <option value="">Select an option</option>
-          <option value="Keychain">Keychain (Gantungan Kunci)</option>
-          <option value="Pin">Pin (Pin Peniti)</option>
-          <option value="Acrylic Standee">Acrylic Standee (Pajangan Berdiri Akrilik)</option>
+          <option value="keychain">Keychain (13rb)</option>
+          <option value="pin">Pin (13rb)</option>
+          <option value="standee">Acrylic Standee (21rb)</option>
         </select>
 
-        <label>Amount (1–10)</label>
-        <input id="amount" type="number" min="1" max="10" value="1" required>
+        <label>Amount of Pieces</label>
+        <input id="amount" type="number" min="1" max="10" required>
+
+        <label>Final Price (auto)</label>
+        <input id="price" type="text" readonly>
 
         <label>Message</label>
-        <textarea id="message" placeholder="Describe what you want..." rows="6" required></textarea>
+        <textarea id="message" rows="6" required></textarea>
 
         <button type="submit">Submit Order</button>
       </form>
 
+      <p id="notify" style="margin-top:15px; opacity:0; transition:.3s;"></p>
     </div>
   </div>
 
-  <div class="works-section">
-    <h1>Works</h1>
-    <p class="tiny">My works blah blah blah</p>
-    <p>Show your works here...</p>
-  </div>
-
   <script src="script.js"></script>
-
 </body>
 </html>
