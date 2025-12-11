@@ -1,366 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Contact - thOSp Business</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Website</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0a0b0f;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
 
-<style>
-:root {
-  --bg:#0a0b0f;
-  --panel:#11131a;
-  --border:#2cff6a;
-  --accent:#2cff6a;
-  --accent2:#00e5ff;
-  --text:#e8e8ef;
-  --muted:#9aa0b3;
-  --success:#00ff88;
-  --error:#ff4444;
-  --notify:#ffaa00;
-}
+    h1 {
+      margin: 0;
+    }
 
-* {
-  box-sizing:border-box;
-  font-family: "Segoe UI", system-ui, sans-serif;
-  margin: 0;
-  padding: 0;
-}
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 40px;
+    }
 
-body {
-  margin:0;
-  background: var(--bg);
-  color:var(--text);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
+    .about, .order {
+      padding: 20px;
+      background: #11131a;
+      border-radius: 10px;
+      border: 1px solid #2cff6a;
+    }
 
-/* ===== Title ===== */
-.page-title {
-  text-align: center;
-  margin-bottom: 30px;
-  width: 100%;
-}
+    .about {
+      width: 35%;
+    }
 
-.page-title h1 {
-  color: var(--accent);
-  font-size: 32px;
-  margin-bottom: 5px;
-}
+    .order {
+      width: 65%;
+    }
 
-.page-title .subtitle {
-  color: var(--muted);
-  font-size: 14px;
-}
+    .tiny {
+      font-size: 12px;
+      color: #8affc1;
+      margin-bottom: 10px;
+    }
 
-/* ===== Contact Card ===== */
-.contact-container {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.contact-card {
-  background: var(--panel);
-  border: 1px solid var(--accent);
-  padding: 30px;
-}
-
-.contact-card h2 {
-  color: var(--text);
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 22px;
-  border-bottom: 1px solid var(--accent);
-  padding-bottom: 10px;
-}
-
-/* ===== Status Messages ===== */
-.status-message {
-  padding: 12px;
-  margin-bottom: 15px;
-  text-align: center;
-  display: none;
-  font-size: 14px;
-}
-
-.status-message.success {
-  background: rgba(0, 255, 136, 0.1);
-  border: 1px solid var(--success);
-  color: var(--success);
-  display: block;
-}
-
-.status-message.error {
-  background: rgba(255, 68, 68, 0.1);
-  border: 1px solid var(--error);
-  color: var(--error);
-  display: block;
-}
-
-.status-message.info {
-  background: rgba(0, 229, 255, 0.1);
-  border: 1px solid var(--accent2);
-  color: var(--accent2);
-  display: block;
-}
-
-/* ===== Notify Section ===== */
-.notify-section {
-  background: rgba(255, 170, 0, 0.1);
-  border: 1px solid var(--notify);
-  padding: 15px;
-  margin-bottom: 20px;
-  display: none;
-}
-
-.notify-section.active {
-  display: block;
-}
-
-.notify-header {
-  color: var(--notify);
-  font-weight: 600;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.notify-header::before {
-  content: "⚠️";
-}
-
-.notify-content {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-/* ===== Form ===== */
-#contactForm {
-  display: grid;
-  gap: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.form-group label {
-  font-weight: 600;
-  color: var(--accent2);
-  font-size: 13px;
-}
-
-.form-group .hint {
-  font-size: 11px;
-  color: var(--muted);
-}
-
-input, textarea, select {
-  background: rgba(11, 13, 20, 0.9);
-  border: 1px solid #283045;
-  padding: 12px;
-  color: var(--text);
-  font-size: 14px;
-}
-
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-input.error, textarea.error {
-  border-color: var(--error);
-}
-
-/* ===== Button ===== */
-.submit-btn {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  font-weight: 600;
-  padding: 14px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.submit-btn:hover:not(:disabled) {
-  background: var(--accent);
-  color: #000;
-}
-
-.submit-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* ===== Loading Animation ===== */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.loading-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255,255,255,.3);
-  border-radius: 50%;
-  border-top-color: var(--accent);
-  animation: spin 1s linear infinite;
-  margin-right: 8px;
-}
-
-/* ===== Privacy Notice ===== */
-.privacy-notice {
-  background: rgba(44, 255, 106, 0.05);
-  border: 1px solid var(--accent);
-  padding: 12px;
-  margin-top: 20px;
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-/* ===== Honeypot Field ===== */
-.honeypot {
-  display: none;
-}
-
-/* ===== Footer ===== */
-.footer {
-  margin-top: 30px;
-  color: var(--muted);
-  font-size: 11px;
-  text-align: center;
-  padding: 15px;
-  width: 100%;
-  max-width: 500px;
-}
-
-/* ===== Character Counter ===== */
-.char-counter {
-  text-align: right;
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 3px;
-}
-
-/* ===== Mobile Responsive ===== */
-@media (max-width: 768px) {
-  body {
-    padding: 15px;
-  }
-  
-  .page-title h1 {
-    font-size: 24px;
-  }
-  
-  .contact-card {
-    padding: 20px 15px;
-  }
-  
-  .contact-card h2 {
-    font-size: 18px;
-  }
-}
-</style>
+    .works-section {
+      margin-top: 200px;
+      padding: 40px;
+      background: #11131a;
+      border: 1px solid #2cff6a;
+      border-radius: 10px;
+      margin-left: 40px;
+      margin-right: 40px;
+    }
+  </style>
 </head>
-
 <body>
-  <!-- Page Title -->
-  <div class="page-title">
-    <h1>thOSp Business</h1>
-    <div class="subtitle">Contact Form</div>
-  </div>
-  
-  <!-- Contact Container -->
-  <div class="contact-container">
-    <div class="contact-card">
-      <h2>CONTACT</h2>
-      
-      <!-- Notify Section -->
-      <div id="notifySection" class="notify-section">
-        <div class="notify-header">NOTIFICATION</div>
-        <div class="notify-content" id="notifyContent"></div>
-      </div>
-      
-      <!-- Status Message -->
-      <div id="statusMessage" class="status-message"></div>
-      
-      <!-- Contact Form -->
-      <form id="contactForm" novalidate>
-        <!-- Honeypot field -->
-        <div class="honeypot">
-          <label for="website">Website</label>
-          <input type="url" id="website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-        
-        <!-- Name Field -->
-        <div class="form-group">
-          <label for="name">Name *</label>
-          <input id="name" type="text" placeholder="Your name" required>
-        </div>
-        
-        <!-- Email Field -->
-        <div class="form-group">
-          <label for="email">Email *</label>
-          <input id="email" type="email" placeholder="your.email@example.com" required>
-        </div>
-        
-        <!-- Business Field -->
-        <div class="form-group">
-          <label for="business">Business / Company</label>
-          <input id="business" type="text" placeholder="Your business name">
-        </div>
-        
-        <!-- Category Field -->
-        <div class="form-group">
-          <label for="category">Inquiry Type</label>
-          <select id="category">
-            <option value="">Select type</option>
-            <option value="partnership">Business Partnership</option>
-            <option value="sales">Sales Inquiry</option>
-            <option value="support">Technical Support</option>
-            <option value="billing">Billing Question</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        
-        <!-- Message Field -->
-        <div class="form-group">
-          <label for="message">Message *</label>
-          <textarea id="message" rows="5" placeholder="Your message..." required></textarea>
-          <div id="charCounter" class="char-counter">0/2000</div>
-        </div>
-        
-        <!-- Submit Button -->
-        <button type="submit" id="submitBtn" class="submit-btn">
-          <span id="btnSpinner" class="loading-spinner" style="display: none;"></span>
-          <span id="btnText">SUBMIT AND SEND</span>
-        </button>
-        
-        <!-- Privacy Notice -->
-        <div class="privacy-notice">
-          <strong>Note:</strong> Your message is transmitted securely.
-        </div>
-      </form>
+
+  <div class="container">
+    <div class="about">
+      <h1>About Me</h1>
+      <p class="tiny">About me, Introducing myself.</p>
+      <p>Write your intro here...</p>
     </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-      © 2025 thOSp • Version 1.0
+
+    <div class="order">
+      <h1>Order</h1>
+      <p class="tiny">Order here, fill out the forms.</p>
+      <p>Place your form or order UI here...</p>
     </div>
   </div>
 
-<script src="script.js"></script>
+  <div class="works-section">
+    <h1>Works</h1>
+    <p class="tiny">My works blah blah blah</p>
+    <p>Show your works here...</p>
+  </div>
+
 </body>
 </html>
