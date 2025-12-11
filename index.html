@@ -409,6 +409,60 @@
       color: #9dffb3;
     }
 
+    /* Footer Styles */
+    .site-footer {
+      margin: 20px;
+      padding: 30px;
+      background: #14161d;
+      border: 1px solid #1f222b;
+      border-radius: 20px;
+      text-align: center;
+      color: #8a8a8a;
+      font-size: 14px;
+    }
+
+    @media (min-width: 768px) {
+      .site-footer {
+        margin: 40px 60px;
+        padding: 40px;
+      }
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: #8a8a8a;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #2cff6a;
+    }
+
+    .footer-divider {
+      color: #1f222b;
+    }
+
+    .footer-brand {
+      color: #2cff6a;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
     .mobile-menu-btn {
       display: none;
       background: none;
@@ -561,6 +615,23 @@ If you ever want custom art or merch based on your own characters or ideas :3</p
       <p><strong>Note:</strong> These are just the PLACEHOLDERS</p>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand">thosp • Commissions</div>
+      <div>© 2024 All artwork and designs are property of thosp.</div>
+      <div>Website created with care by thosp</div>
+      
+      <div class="footer-links">
+        <a href="#order">Order</a>
+        <span class="footer-divider">•</span>
+        <a href="#works">Works</a>
+        <span class="footer-divider">•</span>
+        <a href="#about">About</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
