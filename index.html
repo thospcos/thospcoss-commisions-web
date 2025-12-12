@@ -1635,7 +1635,7 @@
 
   <div class="works-section">
     <h1>My Works</h1>
-    <p class="tiny">Some of my recent accessories and artworks (PLACEHOLDERS)</p>
+    <p class="tiny">Some of my recent accessories and artworks</p>
     
     <div class="works-grid">
 
@@ -1661,7 +1661,7 @@
     </div>
     
     <div style="margin-top: 30px; padding: 20px; background: rgba(44, 255, 106, 0.05); border-radius: 15px; border: 2px solid rgba(44, 255, 106, 0.2); font-size: 14px; font-weight: 800; color: #2cff6a; text-align: center;">
-      <p style="margin: 0;"><strong>Note:</strong> These are just the PLACEHOLDERS</p>
+      <p style="margin: 0;"><strong>Note:</strong> These are an EXAMPLE of the accessories.</p>
     </div>
   </div>
 
@@ -2004,13 +2004,10 @@
       const initialItem = createAccessoryItem();
       accessoriesContainer.appendChild(initialItem);
       
-      // Update remove buttons state
       updateRemoveButtons();
       
-      // Calculate initial total price
       updateTotalPrice();
       
-      // Add accessory button click handler
       addAccessoryBtn.addEventListener('click', function() {
         const newItem = createAccessoryItem();
         accessoriesContainer.appendChild(newItem);
@@ -2018,7 +2015,6 @@
         updateTotalPrice();
       });
       
-      // Add click handlers for NSFW/SFW options
       sfwOption.addEventListener('click', function() {
         sfwOption.classList.add('selected');
         nsfwOption.classList.remove('selected');
