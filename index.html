@@ -620,6 +620,66 @@
       }
     }
 
+    /* NSFW/SFW Checklist Styles */
+    .content-check-container {
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(44, 255, 106, 0.05);
+      border-radius: 15px;
+      border: 2px solid rgba(44, 255, 106, 0.2);
+      animation: noteFloat 4s ease-in-out infinite;
+    }
+
+    .content-check-label {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: block;
+      color: #9dffb3;
+    }
+
+    .content-check-options {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .content-check-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 10px 15px;
+      background: #0f1116;
+      border-radius: 10px;
+      border: 2px solid #1f222b;
+      transition: all 0.3s ease;
+    }
+
+    .content-check-option:hover {
+      border-color: #9dffb3;
+      background: #13161c;
+    }
+
+    .content-check-option.selected {
+      border-color: #2cff6a;
+      background: rgba(44, 255, 106, 0.1);
+    }
+
+    .content-check-option input[type="radio"] {
+      display: none;
+    }
+
+    .content-check-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e6e6e6;
+    }
+
+    .content-check-option.selected .content-check-text {
+      color: #2cff6a;
+    }
+
     /* Accessory Type Selection */
     .accessory-type-container {
       display: none;
@@ -1553,6 +1613,21 @@
         <label>Message</label>
         <textarea id="message" placeholder="Describe your wants.." rows="6" required></textarea>
 
+        <!-- NSFW/SFW Checklist -->
+        <div class="content-check-container">
+          <label class="content-check-label">Content Type (Choose One):</label>
+          <div class="content-check-options">
+            <label class="content-check-option" id="sfwOption">
+              <input type="radio" name="contentType" value="SFW" required>
+              <span class="content-check-text">SFW (Safe For Work)</span>
+            </label>
+            <label class="content-check-option" id="nsfwOption">
+              <input type="radio" name="contentType" value="NSFW" required>
+              <span class="content-check-text">NSFW (Not Safe For Work)</span>
+            </label>
+          </div>
+        </div>
+
         <button type="submit">Submit Order</button>
       </form>
     </div>
@@ -1919,6 +1994,8 @@
       const addAccessoryBtn = document.getElementById("addAccessoryBtn");
       const orderCodeDisplay = document.getElementById("orderCodeDisplay");
       const orderCodeValue = document.getElementById("orderCodeValue");
+      const sfwOption = document.getElementById("sfwOption");
+      const nsfwOption = document.getElementById("nsfwOption");
       
       // Generate initial order code
       orderCodeValue.textContent = generateOrderCode();
@@ -1941,6 +2018,19 @@
         updateTotalPrice();
       });
       
+      // Add click handlers for NSFW/SFW options
+      sfwOption.addEventListener('click', function() {
+        sfwOption.classList.add('selected');
+        nsfwOption.classList.remove('selected');
+        sfwOption.querySelector('input').checked = true;
+      });
+      
+      nsfwOption.addEventListener('click', function() {
+        nsfwOption.classList.add('selected');
+        sfwOption.classList.remove('selected');
+        nsfwOption.querySelector('input').checked = true;
+      });
+      
       // Form submission
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -1954,6 +2044,14 @@
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const message = document.getElementById("message").value.trim();
+        
+        // Get content type
+        const contentType = document.querySelector('input[name="contentType"]:checked');
+        if (!contentType) {
+          alert("Please select either SFW or NSFW for content type.");
+          return;
+        }
+        const contentTypeValue = contentType.value;
 
         // Get all accessory items
         const accessoryItems = [];
@@ -2078,6 +2176,7 @@
                 { name: "Order Code", value: orderCode },
                 { name: "Name", value: name || "Not provided" },
                 { name: "Email", value: email || "Not provided" },
+                { name: "Content Type", value: contentTypeValue },
                 { name: "Accessories", value: accessoryList || "No accessories selected" },
                 { name: "Total Price", value: `Rp ${totalPrice.toLocaleString('id-ID')}` },
                 { name: "Message", value: message.length > 1000 ? message.substring(0, 1000) + "..." : message || "No message" }
@@ -2114,6 +2213,10 @@
             
             // Reset total price
             updateTotalPrice();
+            
+            // Reset NSFW/SFW selection
+            sfwOption.classList.remove('selected');
+            nsfwOption.classList.remove('selected');
             
             // Hide order code display
             orderCodeDisplay.classList.remove('visible');
