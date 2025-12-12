@@ -828,7 +828,6 @@
       50% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(44, 255, 106, 0.3); }
     }
 
-    /* Works Section */
     .works-section {
       margin: 40px auto;
       padding: 40px;
@@ -877,7 +876,6 @@
                   inset 0 0 30px rgba(44, 255, 106, 0.1);
     }
 
-    /* Accessory Items */
     .accessory-item {
       display: flex;
       flex-direction: column;
@@ -1068,7 +1066,6 @@
       50% { transform: scale(1.02); }
     }
 
-    /* NOTE styles */
     .note-container {
       display: flex;
       flex-direction: column;
@@ -1127,7 +1124,6 @@
       }
     }
 
-    /* Works Grid */
     .works-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1180,7 +1176,6 @@
       background: #0f1116;
     }
 
-    /* Sources */
     .sources {
       margin-top: 30px;
       padding-top: 25px;
@@ -1252,7 +1247,6 @@
       color: #9dffb3;
     }
 
-    /* Footer */
     .site-footer {
       margin: 60px auto 40px;
       padding: 40px;
@@ -1354,7 +1348,6 @@
       text-shadow: 0 0 10px rgba(44, 255, 106, 0.3);
     }
 
-    /* Mobile */
     @media (max-width: 767px) {
       input, select, textarea, button {
         min-height: 50px;
@@ -1394,7 +1387,6 @@
       -webkit-tap-highlight-color: rgba(44, 255, 106, 0.3);
     }
 
-    /* Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -1434,7 +1426,6 @@
       animation: fadeInUp 0.8s ease-out;
     }
 
-    /* Scroll Progress Bar */
     .scroll-progress {
       position: fixed;
       top: 0;
@@ -1450,17 +1441,14 @@
 
 <body>
 
-  <!-- Scroll Progress Bar -->
   <div class="scroll-progress"></div>
 
-  <!-- Floating Particles -->
   <div class="floating-particle particle-1"></div>
   <div class="floating-particle particle-2"></div>
   <div class="floating-particle particle-3"></div>
   <div class="floating-particle particle-4"></div>
   <div class="floating-particle particle-5"></div>
 
-  <!-- Animated Topbar -->
   <div class="topbar">
     <div class="topbar-content">
       <div class="logo-icon">TH</div>
@@ -1473,20 +1461,19 @@
     <div class="topbar-stats">
       <div class="stat-badge">
         <span class="stat-icon"></span>
-        <span class="stat-text"><span class="topbar-highlight">Open</span> for Commissions</span>
+        <span class="stat-text"><span class="topbar-highlight">Probably Open </span> for Commissions</span>
       </div>
       <div class="stat-badge">
         <span class="stat-icon"></span>
-        <span class="stat-text">Fast <span class="topbar-highlight">Turnaround</span></span>
+        <span class="stat-text">Lazy <span class="topbar-highlight">Bitch</span></span>
       </div>
       <div class="stat-badge">
         <span class="stat-icon"></span>
-        <span class="stat-text">100% <span class="topbar-highlight">Handmade</span></span>
+        <span class="stat-text">Drawing are <span class="topbar-highlight">Handmade</span></span>
       </div>
     </div>
   </div>
 
-  <!-- Rest of your HTML remains the same -->
   <div class="container">
     <div class="about">
       <div class="profile-header">
@@ -1594,12 +1581,11 @@
 
         <label>Accessories</label>
         <div id="accessoriesContainer">
-          <!-- Accessory items will be added here by JavaScript -->
+
         </div>
 
         <button type="button" class="add-btn" id="addAccessoryBtn">Add +</button>
 
-        <!-- Order Code Display -->
         <div class="order-code-display" id="orderCodeDisplay">
           <div class="order-code-label">Your Order Code:</div>
           <div class="order-code-value" id="orderCodeValue">02OVI12U8A2112</div>
@@ -1609,11 +1595,9 @@
           Total Price: <span id="totalPrice">0</span> IDR
         </div>
 
-        <!-- Taller message box -->
         <label>Message</label>
-        <textarea id="message" placeholder="Describe your wants.." rows="6" required></textarea>
+        <textarea id="message" placeholder="Describe your wants.." rows="7" required></textarea>
 
-        <!-- NSFW/SFW Checklist -->
         <div class="content-check-container">
           <label class="content-check-label">Content Type (Choose One):</label>
           <div class="content-check-options">
